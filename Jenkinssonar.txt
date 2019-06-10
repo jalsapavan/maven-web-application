@@ -6,25 +6,15 @@ pipeline {
                 git url: 'https://github.com/jalsapavan/maven-web-application.git'
             }
         }
-        stage('build && SonarQube analysis') {
-            steps {
-                withSonarQubeEnv('My SonarQube Server') {
-                    // Optionally use a Maven environment you've configured already
-                    withMaven(maven:'Maven 3.5') {
-                        sh 'mvn clean package sonar:sonar'
-                    }
-                }
-            }
-        }
-        stage("Quality Gate") {
-            steps {
-                timeout(time: 1, unit: 'HOURS') {
-                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
-                    // true = set pipeline to UNSTABLE, false = don't
-                    // Requires SonarQube Scanner for Jenkins 2.7+
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }
+        stage ('Sonarqube analysis') { 
+  
+ dir('mule-sonar'){ 
+  
+ sh 'pwd' 
+ sh 'mvn sonar:sonar -Dsonar.projectKey=poc -Dsonar.host.url=http://40.114.35.62:9000 -Dsonar.login=14dd7f48faee5effafd08e81d57c32e93ac7a429' 
+  
+ }  
+ } 
+ 
     }
 }
