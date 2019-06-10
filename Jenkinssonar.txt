@@ -6,15 +6,7 @@ pipeline {
                 git url: 'https://github.com/jalsapavan/maven-web-application.git'
             }
         }
-        stage ('Sonarqube analysis') { 
-  
- dir('mule-sonar'){ 
-  
- sh 'pwd' 
- sh 'mvn sonar:sonar -Dsonar.projectKey=poc -Dsonar.host.url=http://40.114.35.62:9000 -Dsonar.login=14dd7f48faee5effafd08e81d57c32e93ac7a429' 
-  
- }  
- } 
+       
  
     }
 }
