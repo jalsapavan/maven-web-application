@@ -1,0 +1,38 @@
+pipeline{
+
+agent any
+
+stages {
+
+
+
+       stage('GitClone') {
+            steps {
+                git 'https://github.com/jalsapavan/maven-web-application.git'
+                  }
+            }
+
+
+
+       stage('MavenBuild'){
+              steps{
+                  sh "mvn --version"
+                  sh "mvn clean install"
+              }
+       }
+
+       stage('Sonarqube') {
+           environment {
+        scannerHome = tool 'SonarQubeScanner'
+    }
+    steps {
+        withSonarQubeEnv('sonarqube') {
+            sh "${scannerHome}/bin/sonar-scanner"
+        }
+        timeout(time: 10, unit: 'MINUTES') {
+            waitForQualityGate abortPipeline: true
+        }
+    }
+}
+    }
+}  
