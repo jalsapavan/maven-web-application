@@ -1,0 +1,24 @@
+pipeline{
+
+agent any
+
+stages {
+
+
+
+       stage('GitClone') {
+            steps {
+                git 'https://github.com/jalsapavan/maven-web-application.git'
+                  }
+            }
+
+
+
+       stage('MavenBuild'){
+              steps{
+                  sh "mvn --version"
+                  sh "mvn clean install"
+              }
+       }
+    }
+}  
